@@ -31,7 +31,7 @@ jobs:
             - run: "go build -v ."
 
     lint:
-        name: "Go Nautobot Unit Tests"
+        name: "Go Nautobot Lint"
         needs: "build"
         runs-on: "ubuntu-latest"
         timeout-minutes: 15
