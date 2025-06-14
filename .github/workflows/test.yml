@@ -27,6 +27,7 @@ jobs:
               with:
                   go-version-file: "go.mod"
                   cache: false
+            - run: "go mod tidy && go mod vendor"
             - run: "go build -v ."
             - name: "Run Linting Process"
               uses: "golangci/golangci-lint-action@639cd343e1d3b897ff35927a75193d57cfcba299" # v3.6.0
@@ -47,5 +48,5 @@ jobs:
                   cache: false
             - env:
                   ENVIRONMENT: "CI"
-              run: "go test -v -short ./..."
+              run: "go test -v -short -cover ./..."
               timeout-minutes: 10
