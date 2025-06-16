@@ -27,7 +27,7 @@ func TestClient_CustomFieldGet(t *testing.T) {
 	resp, err := testClient.Extras.CustomFieldGet(id)
 	require.NoError(t, err)
 	assert.Equal(t, "Terraform", resp.Label)
-	assert.Equal(t, false, resp.Default.(bool))
+	assert.False(t, resp.Default.(bool))
 	assert.Equal(t, id, resp.ID)
 }
 
@@ -58,7 +58,7 @@ func TestClient_CustomFieldAll(t *testing.T) {
 	// check Default fields
 	assert.Nil(t, resp[0].Default)
 	assert.Equal(t, map[string]any{"stuff": "things"}, resp[1].Default.(map[string]any))
-	assert.Equal(t, false, resp[2].Default.(bool))
+	assert.False(t, resp[2].Default.(bool))
 }
 
 func TestClient_CustomFieldCreate(t *testing.T) {
