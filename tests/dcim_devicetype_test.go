@@ -1,6 +1,7 @@
 package nautobot_test
 
 import (
+	"errors"
 	"io"
 	"mime/multipart"
 	"net/url"
@@ -135,7 +136,7 @@ func TestCreateMultipartBody(t *testing.T) {
 	parts := make(map[string][]byte)
 	for {
 		p, err := mr.NextPart()
-		if err == io.EOF {
+		if errors.Is(err, io.EOF) {
 			break
 		}
 		require.NoError(t, err)

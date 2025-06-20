@@ -80,7 +80,7 @@ func NewMultipartBody(inputStruct any) (*bytes.Buffer, string, error) {
 				return nil, "", fmt.Errorf("failed to copy file content for %s: %w", formName, err)
 			}
 		} else {
-			switch value.Kind() {
+			switch value.Kind() { // nolint: exhaustive
 			case reflect.Slice:
 				for j := 0; j < value.Len(); j++ {
 					if err := w.WriteField(formName, fmt.Sprintf("%v", value.Index(j).Interface())); err != nil {
