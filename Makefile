@@ -10,7 +10,6 @@ endif
 
 RUN       := $(COMPOSE) run $(COMPOSE_RUN_OPTS) --rm develop
 
-
 VERSION   := v$(shell cat VERSION)
 HASH      := $(shell git rev-parse HEAD)
 TS        := $(shell date -u '+%Y-%m-%d_%I:%M:%S%p')
