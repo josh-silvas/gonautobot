@@ -23,6 +23,9 @@ func Create[T any, R any](c *Client, uri string, body R) (*T, error) {
 }
 
 // CreateMultipart : Generic function to perform a POST request with multipart/form-data to Nautobot.
+//
+// This should only be used on API endpoints that support
+// multipart form data and image uploads, such as 'dcim/device-types/'.
 func CreateMultipart[T any, R any](c *Client, uri string, body R) (*T, error) {
 	var resp T
 
@@ -91,6 +94,9 @@ func Update[T any](c *Client, uri string, id uuid.UUID, patch map[string]any) (*
 }
 
 // UpdateMultipart : Generic function to perform a PATCH request with multipart/form-data to Nautobot.
+//
+// This should only be used on API endpoints that support
+// multipart form data and image uploads, such as 'dcim/device-types/'.
 func UpdateMultipart[T any, R any](c *Client, uri string, id uuid.UUID, body R) (*T, error) {
 	var resp T
 
