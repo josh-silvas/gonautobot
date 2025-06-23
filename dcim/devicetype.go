@@ -49,6 +49,7 @@ type (
 		Model              string         `form:"model"`
 		Comments           string         `form:"comments,omitempty"`
 		CustomFields       map[string]any `form:"custom_fields,omitempty"`
+		DeviceFamily       string         `form:"device_family,omitempty"`
 		FrontImage         *string        `form:"front_image,omitempty,upload"`
 		IsFullDepth        bool           `form:"is_full_depth"`
 		PartNumber         string         `form:"part_number,omitempty"`
