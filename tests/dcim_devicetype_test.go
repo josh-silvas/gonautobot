@@ -122,7 +122,8 @@ func TestCreateMultipartBody(t *testing.T) {
 		Manufacturer: "test-manufacturer",
 		UHeight:      1,
 		CustomFields: map[string]any{
-			"cf_text": "test value",
+			"text":          "test value",
+			"custom_number": 42,
 		},
 	}
 	newDeviceType.SetFrontImage(tmpFile.Name())
@@ -150,7 +151,8 @@ func TestCreateMultipartBody(t *testing.T) {
 	assert.Equal(t, newDeviceType.Model, string(parts["model"]))
 	assert.Equal(t, newDeviceType.Manufacturer, string(parts["manufacturer"]))
 	assert.Equal(t, "1", string(parts["u_height"]))
-	assert.Equal(t, `{"cf_text":"test value"}`, string(parts["custom_fields"]))
+	assert.Equal(t, "test value", string(parts["cf_text"]))
+	assert.Equal(t, "42", string(parts["cf_custom_number"]))
 
 	_, ok := parts["front_image"]
 	assert.True(t, ok, "front_image part should exist")

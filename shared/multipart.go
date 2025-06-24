@@ -85,15 +85,27 @@ func NewMultipartBody(inputStruct any) (*bytes.Buffer, string, error) {
 			if _, err = io.Copy(part, file); err != nil {
 				return nil, "", fmt.Errorf("failed to copy file content for %s: %w", formName, err)
 			}
-		} else {
-			switch value.Kind() { // nolint: exhaustive
-			case reflect.Slice:
-				for j := 0; j < value.Len(); j++ {
-					if err := w.WriteField(formName, fmt.Sprintf("%v", value.Index(j).Interface())); err != nil {
-						return nil, "", fmt.Errorf("failed to write slice field %s: %w", formName, err)
+
+			continue
+		}
+
+		switch value.Kind() { // nolint: exhaustive
+		case reflect.Slice:
+			for j := 0; j < value.Len(); j++ {
+				if err := w.WriteField(formName, fmt.Sprintf("%v", value.Index(j).Interface())); err != nil {
+					return nil, "", fmt.Errorf("failed to write slice field %s: %w", formName, err)
+				}
+			}
+		case reflect.Map:
+			switch field.Name {
+			case "CustomFields":
+				for key, val := range value.Interface().(map[string]any) {
+					name := "cf_" + key
+					if err := w.WriteField(name, fmt.Sprintf("%v", val)); err != nil {
+						return nil, "", fmt.Errorf("failed to write custom_field %s: %w", name, err)
 					}
 				}
-			case reflect.Map:
+			default:
 				jsonBytes, err := json.Marshal(value.Interface())
 				if err != nil {
 					return nil, "", fmt.Errorf("failed to marshal map field %s: %w", formName, err)
@@ -101,10 +113,10 @@ func NewMultipartBody(inputStruct any) (*bytes.Buffer, string, error) {
 				if err := w.WriteField(formName, string(jsonBytes)); err != nil {
 					return nil, "", fmt.Errorf("failed to write map field %s: %w", formName, err)
 				}
-			default:
-				if err := w.WriteField(formName, fmt.Sprintf("%v", value.Interface())); err != nil {
-					return nil, "", fmt.Errorf("failed to write field %s: %w", formName, err)
-				}
+			}
+		default:
+			if err := w.WriteField(formName, fmt.Sprintf("%v", value.Interface())); err != nil {
+				return nil, "", fmt.Errorf("failed to write field %s: %w", formName, err)
 			}
 		}
 	}
