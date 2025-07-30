@@ -73,7 +73,7 @@ func TestClient_RackCreate(t *testing.T) {
 	resp, err := testClient.Dcim.RackCreate(newRack)
 	require.NoError(t, err)
 	assert.Equal(t, newRack.Name, resp.Name)
-	assert.Equal(t, newRack.AssetTag, resp.AssetTag)
+	assert.Equal(t, newRack.AssetTag, *resp.AssetTag)
 	assert.Equal(t, uuid.MustParse(testRackID), resp.ID)
 }
 
@@ -93,7 +93,7 @@ func TestClient_RackUpdate(t *testing.T) {
 	resp, err := testClient.Dcim.RackUpdate(id, updateData)
 	require.NoError(t, err)
 
-	assert.Equal(t, "updated-value", resp.AssetTag)
+	assert.Equal(t, "updated-value", *resp.AssetTag)
 	assert.Equal(t, id, resp.ID)
 }
 
